@@ -2,4 +2,4 @@
 
 ДЗ по курсу Linux Advanced
 
-[1. ДЗ по теме Terraform] (./01-terraform)
+[1. ДЗ по теме Terraform](./01-terraform)
