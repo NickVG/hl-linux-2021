@@ -9,8 +9,10 @@
 Требуется устнаовить git, ansible.
 Основано на ДЗ к курсе Linux
 ```bash
-git clone https://github.com/NickVG/LinuxHT.git
-cd LinuxHT/Linux11/
+git clone https://github.com/NickVG/hl-linux-2021.git
+cd 01-terraform/terraform
+terraform apply
+cd ../ansible
 ```
 Все дальнейшие действия нужно делать из текущего каталога.
 
