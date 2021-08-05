@@ -10,7 +10,7 @@ output "external_ip_address_vm_1" {
 resource "local_file" "AnsibleInventory" {
  content = templatefile("inventory.tmpl",
  {
-  nginx-ip = yandex_compute_instance.vm-1.network_interface.0.ip_address
+  nginx-ip = yandex_compute_instance.vm-1.network_interface.0.nat_ip_address
  }
  )
  filename = "../ansible/inventory"

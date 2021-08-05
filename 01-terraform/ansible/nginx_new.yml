@@ -1,0 +1,7 @@
+---
+- name: Install EPEL Repo
+  hosts: nginx
+  become: true
+  roles:
+    - nginx 
+    - mkrepo
