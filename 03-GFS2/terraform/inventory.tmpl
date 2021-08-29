@@ -1,2 +1,10 @@
-[iscsi-client]
-iscsi-cleint ansible_host=${iscsi-client-ip} # iSCSI client
+[iscsi_server]
+iscsi-server ansible_host=${iscsi-server-ip} # iSCSI client
+
+[gfs2]
+gfs2-0 ansible_host=${gfs2-0-ip} # iSCSI server node 0
+gfs2-1 ansible_host=${gfs2-1-ip} # iSCSI server node 1
+gfs2-2 ansible_host=${gfs2-2-ip} # iSCSI server node 2
+
+[gfs2_master]
+gfs2-0 ansible_host=${gfs2-0-ip} # iSCSI server node 0

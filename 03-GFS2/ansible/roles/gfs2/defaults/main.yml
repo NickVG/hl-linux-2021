@@ -1,0 +1,4 @@
+---
+# defaults file for gfs2.yml
+pacemaker_hacluster_name: 'hacluster'
+hosts_in_cluster: '3'

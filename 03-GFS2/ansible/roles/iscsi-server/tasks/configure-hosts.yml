@@ -1,0 +1,25 @@
+---
+- name: Copy a new "hosts" file into place, backing up the original if it differs from the copied version
+  ansible.builtin.copy:
+    src: hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Set authorized key took from file
+  authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file', 'id_rsa.pub') }}"
+
+- name: Copy the private_key
+  copy:
+    src: "id_rsa"
+    dest: /root/.ssh/id_rsa
+    mode: '0600'
+- name: Copy the private_key
+  copy:
+    src: "id_rsa.pub"
+    dest: /root/.ssh/identity

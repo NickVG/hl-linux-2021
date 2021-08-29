@@ -1,0 +1,6 @@
+---
+- name: Configure pcm
+  hosts: gfs2_master
+  become: true
+  roles:
+    - gfs2

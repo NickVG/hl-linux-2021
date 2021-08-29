@@ -1,0 +1,3 @@
+---
+# tasks file for gfs2.yml
+- include: gfs2_setup.yml

@@ -1,0 +1,10 @@
+---
+# tasks file for iscsi-server
+- name: Install iscsi-server
+  include_tasks: install.yml
+
+- name: Configure hosts file
+  include_tasks: configure-hosts.yml
+
+- name: Configure iscsi-server
+  include_tasks: iscsi-setup.yml

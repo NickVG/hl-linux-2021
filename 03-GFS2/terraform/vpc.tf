@@ -1,14 +1,6 @@
 #Network
 #Compute Resource
 
-terraform {
-  required_providers {
-    yandex = {
-      source = "yandex-cloud/yandex"
-    }
-  }
-}
-
 resource "yandex_vpc_network" "network-1" {
   name = "network1"
 }

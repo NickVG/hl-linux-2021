@@ -1,0 +1,7 @@
+---
+# defaults file for pcm-setup
+# roles/pcm-setup/files/mkpasswd.py "hacluster"
+pacemaker_hacluster_name: 'hacluster'
+pacemaker_hacluster_user: 'hacluster'
+pacemaker_hacluster_password: 'hacluster'
+pacemaker_hacluster_sha: '$6$1Yn2wfXdNkJVFi50$wuML9/iRwxk4/ucdjPYZu5Er.iu2Mt4CyxPum/JDWj9Vw78MmF4wVfUt4qN4Za6KutBDR9abOvoF2xjxPwLVm0'

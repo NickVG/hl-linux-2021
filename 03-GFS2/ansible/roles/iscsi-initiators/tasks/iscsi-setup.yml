@@ -1,0 +1,27 @@
+---
+- name: iscsi portal discovery and configure ACL
+  shell: "{{ item }}"
+  loop: 
+    - " iscsiadm -m discovery -t st -p iscsi-server"
+    - " ssh-keyscan -H iscsi-server >> ~/.ssh/known_hosts"
+    - " ssh iscsi-server targetcli /iscsi/iqn.$(date +%Y-%m).internal.auto.iscsi-server:storage.target00/tpg1/acls create wwn=$(cat /etc/iscsi/initiatorname.iscsi |cut -d'=' --fields=2)"
+
+#- name: Perform a discovery on sun.com and show available target nodes
+#  community.general.open_iscsi:
+#    show_nodes: yes
+#    discover: yes
+#    portal: iscsi-server
+#    login: yes
+#    auto_node_startup: yes
+#    auto_portal_startup: yes
+#    target: 
+- name: iscsi service enable and start
+  systemd:
+    name: iscsi
+    state: started
+    enabled: yes
+
+- name: mount iscsi disk
+  shell: "{{ item }}"
+  loop:
+    - "iscsiadm -m node -l -T iqn.$(date +%Y-%m).internal.auto.iscsi-server:storage.target00"

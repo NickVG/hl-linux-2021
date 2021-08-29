@@ -1,0 +1,8 @@
+---
+# tasks file for pcm-setup
+# install required packages
+- include: install.yml
+# configure pacemaker
+- include: config.yml
+# configure cluster storage and GFS2
+#- include: gfs2_setup.yml

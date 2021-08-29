@@ -1,16 +1,15 @@
 #Network
 #Compute Resource
 
-terraform {
-  required_providers {
-    yandex = {
-      source = "yandex-cloud/yandex"
-    }
-  }
+resource "yandex_compute_disk" "data_disks" {
+  count = 1
+  size = 1
+#  name     = "disk-gfs0[count.index]"
 }
 
-resource "yandex_compute_instance" "vm-1" {
-  name = "terraform1"
+resource "yandex_compute_instance" "iscsi-server" {
+  name = "iscsi-server"
+  count = 1
 
   resources {
     cores  = 2
@@ -21,6 +20,9 @@ resource "yandex_compute_instance" "vm-1" {
     initialize_params {
       image_id = "fd83869rbingor0in0ui"
     }
+  }
+  secondary_disk {
+    disk_id = yandex_compute_disk.data_disks[count.index].id
   }
 
   network_interface {

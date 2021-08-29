@@ -1,0 +1,13 @@
+- name: config | Setting hacluster password
+  user:
+    name:  "{{ pacemaker_hacluster_user }}"
+    password: "{{ pacemaker_hacluster_sha }}"
+  become: true
+
+- name: pcs auth
+  shell: |
+    pcs cluster auth {{ groups['gfs2']|join(' ') }} -u {{ pacemaker_hacluster_user }} -p  {{ pacemaker_hacluster_password }}
+    pcs cluster setup --name {{ pacemaker_hacluster_name }} {{ groups['gfs2']|join(' ') }} --force
+    pcs cluster start --all
+  ignore_errors: True
+

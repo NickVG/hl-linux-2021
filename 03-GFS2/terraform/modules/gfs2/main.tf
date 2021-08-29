@@ -1,8 +1,18 @@
-#Network
-#Compute Resource
+# Network
+# Compute Resource
 
-resource "yandex_compute_instance" "vm-1" {
-  name = "terraform1"
+terraform {
+  required_providers {
+    yandex = {
+      source = "yandex-cloud/yandex"
+    }
+  }
+}
+
+
+resource "yandex_compute_instance" "vm" {
+ count = 3
+ name = "vm-${count.index}"
 
   resources {
     cores  = 2

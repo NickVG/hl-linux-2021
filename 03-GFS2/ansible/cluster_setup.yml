@@ -1,0 +1,30 @@
+---
+- name: Install iSCSI client
+  hosts: gfs2
+  become: true
+  roles:
+    - iscsi-client 
+
+- name: Install iSCSI server
+  hosts: iscsi-server
+  become: true
+  roles:
+    - iscsi-server
+
+- name: Configure iSCSI client-server and mount iscsi drive
+  hosts: gfs2
+  become: true
+  roles:
+    - iscsi-initiators
+
+- name: Configure pcm
+  hosts: gfs2
+  become: true
+  roles:
+    - pcm-setup
+
+- name: Configure gfs2
+  hosts: gfs2_master
+  become: true
+  roles:
+    - gfs2
