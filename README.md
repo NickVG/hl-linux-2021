@@ -6,4 +6,4 @@
 - [2. Заметки по теме Pacemaker](./02-pacemaker)
 - [3. ДЗ по теме GFS2](./03-GFS2)
 - [4. Заметик по теме  HAproxy и VRRP (keepalived)](./04-HaproxyAndVRRP)
-- [5. ДЗ по теме GFS2](./05-Nginx)
+- [5. ДЗ по теме Nginx - балансировка и отказоустойчивость](./05-Nginx)
