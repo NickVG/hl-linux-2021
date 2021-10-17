@@ -1,0 +1,7 @@
+---
+- name: Install db server
+  hosts: db_server 
+  become: true
+  roles:
+    - db
+

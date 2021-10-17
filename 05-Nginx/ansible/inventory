@@ -1,0 +1,11 @@
+[db_server]
+db-server ansible_host=62.84.113.234 inventory_hostname=db-server			# DB Server
+
+[web_servers]
+web-0 ansible_host=62.84.118.231 inventory_hostname=web-0				# Web server node 0
+web-1 ansible_host=62.84.116.77 inventory_hostname=web-1				# Web server node 1
+web-2 ansible_host=62.84.116.178 inventory_hostname=web-2				# Web server node 2
+
+[balance_servers]
+lb-0 ansible_host=62.84.119.128 priority=101 state=MASTER inventory_hostname=lb-0	# Load Balance server node 0
+lb-1 ansible_host=62.84.117.59 priority=100 state=BACKUP inventory_hostname=lb-1	# Load Balance server node 1

@@ -1,0 +1,16 @@
+---
+- name: enable mariadb
+  systemd:
+    name: mariadb
+    enabled: yes
+    state: started
+- name: Create database user with password and all database privileges and WITH GRANT OPTION
+  script: mysql.sh
+
+
+#- name: Create database user with password and all database privileges and 'WITH GRANT OPTION'
+#  community.mysql.mysql_user:
+#    name: wordpressuser
+#    password: password
+#    priv: '*.*:ALL,GRANT'
+#    state: present

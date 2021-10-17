@@ -1,0 +1,50 @@
+upstream webserver {
+   hash $scheme$request_uri;
+   server ${web-0-ip};
+   server ${web-1-ip};
+   server ${web-2-ip};
+}
+#server {
+#    listen 80;
+#    server_name _;
+#    return 301 https://$request_uri:8080;
+#}
+
+server {
+    listen 80;
+    server_name _;
+
+      location / {
+        proxy_pass http://webserver/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect http://webserver/ $scheme://$host/;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+      }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name _;
+
+    # SSL parameters
+    ssl_certificate /etc/nginx/certificate.pem;
+    ssl_certificate_key /etc/nginx/key.pem;
+
+      location / {
+        proxy_pass http://webserver/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect http://webserver/ $scheme://$host/;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+      }
+}
+

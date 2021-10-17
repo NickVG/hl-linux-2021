@@ -1,0 +1,7 @@
+---
+# tasks file for db
+- name: Install required packages
+  include_tasks: install.yml
+
+- name: Configure DB
+  include_tasks: dbConfig.yml

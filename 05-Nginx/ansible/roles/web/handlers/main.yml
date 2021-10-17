@@ -1,0 +1,18 @@
+---
+# handlers file for web
+#
+- name: restart php
+  systemd:
+    name: php-fpm
+    state: restarted
+    enabled: yes
+- name: enable mariadb
+  systemd:
+    name: mariadb
+    state: restarted
+    enabled: yes
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: yes

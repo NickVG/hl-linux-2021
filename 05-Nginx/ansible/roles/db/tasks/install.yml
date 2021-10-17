@@ -1,0 +1,22 @@
+---
+- name: check OS version
+  fail: msg='OS is NOT CentOS 7.x'
+  when: ansible_distribution != 'CentOS' or ansible_distribution_major_version != '7'
+
+
+- name: install MySQL\MariaDB packages CentOS
+  yum: 
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - mariadb
+    - mariadb-server
+#    - mariadb-devel
+#    - MariaDB-shared
+     
+- name: enable mysql service
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
