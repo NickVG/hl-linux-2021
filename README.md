@@ -5,3 +5,5 @@
 - [1. ДЗ по теме Terraform](./01-terraform)
 - [2. Заметки по теме Pacemaker](./02-pacemaker)
 - [3. ДЗ по теме GFS2](./03-GFS2)
+- [4. Заметик по теме  HAproxy и VRRP (keepalived)](./04-HaproxyAndVRRP)
+- [5. ДЗ по теме GFS2](./05-Nginx)
