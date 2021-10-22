@@ -69,7 +69,8 @@ cluster.addInstance('clusteradmin@innodb:3306', {ipAllowlist: '192.168.10.10,192
 cluster.addInstance('clusteradmin@innodb:3306', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
 cluster.status
 ```
-![Image of Single-Primary Cluster;](SinglePrimary.pn)g
+
+![Image of Single-Primary Cluster;](SinglePrimary.png)
 
 Далее переключаем в режим мультимастера
 
