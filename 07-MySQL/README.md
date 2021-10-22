@@ -59,21 +59,22 @@ Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No):Y
 ![Image of dba.configureLocalInstance("root@localhost:3306");](dba.configureLocalInstance.png)
 
 Далее подключаемся к узлу БД по hostname
-```shell.connect('clusteradmin@db-2:3306');
-cluster=dba.createCluster('my_innodb_cluster');
-cluster = dba.createCluster('my_innodb_cluster2', {ipAllowlist: '10.128.0.46,10.128.0.47,10.128.0.48,innodb1,innodb2,innodb3'});
-cluster = dba.getCluster()
+```
+shell.connect('clusteradmin@db-2:3306');
+cluster=dba.createCluster('my_innodb_cluster', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
+cluster=dba.getCluster()
 -- разобрать кластер
 cluster.dissolve({force:true})
-cluster.addInstance('clusteradmin@innodb2:3306', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
-cluster.addInstance('clusteradmin@innodb3:3306', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
-cluster.status()
+cluster.addInstance('clusteradmin@innodb:3306', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
+cluster.addInstance('clusteradmin@innodb:3306', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
+cluster.status
 ```
-![Image of Single-Primary Cluster;](SinglePrimary.png)
+![Image of Single-Primary Cluster;](SinglePrimary.pn)g
 
 Далее переключаем в режим мультимастера
 
-``` MySQL  db-2:3306 ssl  JS > cluster.switchToMultiPrimaryMode()
+``` 
+MySQL  db-2:3306 ssl  JS > cluster.switchToMultiPrimaryMode()
 Switching cluster 'my_innodb_cluster' to Multi-Primary mode...
 
 Instance 'db-2:3306' remains PRIMARY.
