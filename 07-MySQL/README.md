@@ -48,46 +48,15 @@ ansible-playbook setup_balance.yml
 
 подключяемся к серверу через `mysqlsh`
 
-``` MySQL  JS > dba.configureLocalInstance("root@localhost:3306");
+```
+MySQL  JS > dba.configureLocalInstance("root@localhost:3306");
 Please provide the password for 'root@localhost:3306': ************
 Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No):Y
 ```
 
 Выбираем пункт 2
 
-Please select an option [1]: 2
-Please provide an account name (e.g: icroot@%) to have it created with the necessary
-privileges or leave empty and press Enter to cancel.
-Account Name: clusteradmin@%
-Password for new account: ********        
-Confirm password: ********
-
-applierWorkerThreads will be set to the default value of 4.
-
-NOTE: Some configuration options need to be fixed:
-+----------------------------------------+---------------+----------------+--------------------------------------------------+
-| Variable                               | Current Value | Required Value | Note                                             |
-+----------------------------------------+---------------+----------------+--------------------------------------------------+
-| binlog_transaction_dependency_tracking | COMMIT_ORDER  | WRITESET       | Update the server variable                       |
-| enforce_gtid_consistency               | OFF           | ON             | Update read-only variable and restart the server |
-| gtid_mode                              | OFF           | ON             | Update read-only variable and restart the server |
-| server_id                              | 1             | <unique ID>    | Update read-only variable and restart the server |
-+----------------------------------------+---------------+----------------+--------------------------------------------------+
-
-Some variables need to be changed, but cannot be done dynamically on the server.
-Do you want to perform the required configuration changes? [y/n]: y
-
-Please pick an option out of [y/n]: 
-Do you want to perform the required configuration changes? [y/n]: y
-Do you want to restart the instance after configuring it? [y/n]: y
-
-Cluster admin user 'clusteradmin'@'%' created.
-Configuring instance...
-The instance 'db-0:3306' was configured to be used in an InnoDB cluster.
-Restarting MySQL...
-NOTE: MySQL server at db-0:3306 was restarted
-`
-Вставить скриншот
+![Image of dba.configureLocalInstance("root@localhost:3306");](dba.configureLocalInstance.png)
 
 Далее подключаемся к узлу БД по hostname
 ```shell.connect('clusteradmin@db-2:3306');
