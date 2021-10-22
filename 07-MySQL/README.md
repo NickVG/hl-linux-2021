@@ -69,10 +69,9 @@ cluster.addInstance('clusteradmin@innodb2:3306', {ipAllowlist: '192.168.10.10,19
 cluster.addInstance('clusteradmin@innodb3:3306', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
 cluster.status()
 ```
-вставить скриншот
-вставить скриншот
+![Image of Single-Primary Cluster;](SinglePrimary.png)
 
-переключение в режим мультимастера
+Далее переключаем в режим мультимастера
 
 ``` MySQL  db-2:3306 ssl  JS > cluster.switchToMultiPrimaryMode()
 Switching cluster 'my_innodb_cluster' to Multi-Primary mode...
@@ -83,10 +82,16 @@ Instance 'db-0:3306' was switched from SECONDARY to PRIMARY.
 
 The cluster successfully switched to Multi-Primary mode.
 ```
+
+Теперь осталось включить
 Настройка mysql router на web серверах
-```cd /usr/bin
+my-sql-router уже раскатан с помощью ansible, осталось сделать следующее:
+
+```
+cd /usr/bin
 ./mysqlrouter --bootstrap  clusteradmin@db-2:3306 -d /home/centos/myrouter
 ~/myrouter/start.sh
-проверяем через mysql-shell
 ```
-вставить скриншот
+
+проверяем через mysql-shell
+![Image of MySQL router;](mysql-router.png)
