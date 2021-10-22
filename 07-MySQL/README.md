@@ -42,6 +42,8 @@ sleep 20
 ansible-playbook setup_balance.yml
 ```
 
+## Настройка кластера
+
 После запуска стенда:
 
 На каждой ноде:
@@ -72,6 +74,7 @@ cluster.status
 
 ![Image of Single-Primary Cluster;](SinglePrimary.png)
 
+
 Далее переключаем в режим мультимастера
 
 ``` 
@@ -85,8 +88,10 @@ Instance 'db-0:3306' was switched from SECONDARY to PRIMARY.
 The cluster successfully switched to Multi-Primary mode.
 ```
 
-Теперь осталось включить
-Настройка mysql router на web серверах
+## Настройка mysql router на web серверах
+
+Теперь осталось включить mysql-router
+
 my-sql-router уже раскатан с помощью ansible, осталось сделать следующее:
 
 ```
