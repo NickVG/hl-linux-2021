@@ -1,0 +1,27 @@
+---
+- name: check OS version
+  fail: msg='OS is NOT CentOS 7.x'
+  when: ansible_distribution != 'CentOS' or ansible_distribution_major_version != '7'
+
+- name: Download and Install MySQL repo
+  yum: name=https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
+
+- name: Install packages only on DB Servers
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - vim
+    - bind-utils
+    - mysql-server
+    - mysql
+    - mysql-shell
+    - centos-release-scl
+    - keepalived
+- name: setenforce 0
+  command: setenforce 0
+- name: Put SELinux in permissive mode, logging actions that would be blocked.
+  selinux:
+    policy: targeted
+    state: permissive

@@ -1,0 +1,16 @@
+---
+- name: Allow nginx to modify files in /usr/share/nginx/html/wordpress
+  shell: "{{ item }}"
+  loop:
+    - " semanage fcontext -a -t httpd_sys_rw_content_t '/usr/share/nginx/html/wordpress(/.*)?'"
+    - " restorecon -v /usr/share/nginx/html/wordpress"
+#    - " semanage fcontext -a -t httpd_sys_rw_content_t 'wordpress'"
+    - " setsebool -P httpd_can_network_connect_db 1"
+#    - " ausearch -c 'php-fpm' --raw | audit2allow -M my-phpfpm"
+#    - " semodule -i my-phpfpm.pp"
+  notify:
+    - restart nginx
+    - restart php
+
+#isemanage fcontext -a -t httpd_sys_rw_content_t 'wordpress'
+# restorecon -v 'wordpress'

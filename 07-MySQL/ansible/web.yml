@@ -1,0 +1,6 @@
+---
+- name: Install and configure web serverse
+  hosts: web_servers
+  become: true
+  roles:
+    - web

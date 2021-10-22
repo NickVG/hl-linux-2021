@@ -1,0 +1,10 @@
+yum install epel-release -y
+yum install nginx -y
+yum install rh-php71-php rh-php71-php-fpm rh-php -y
+yum update
+vim www.conf
+systemctl start rh-php71-php-fpm
+config db!!!
+'%'
+chown nginx:nginx /var/lib/php/session
+setenforce 0

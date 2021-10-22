@@ -1,0 +1,3 @@
+---
+# defaults file for web
+wordpress_directory_path: '/usr/share/nginx/html/wordpress'

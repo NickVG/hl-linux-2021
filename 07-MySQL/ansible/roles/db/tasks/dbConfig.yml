@@ -1,0 +1,19 @@
+---
+- name: enable mysql-server
+  systemd:
+    name: mysqld
+    enabled: yes
+    state: started
+#- name: Configure root user acccess
+#  shell:  mysql -u root --password=$(grep "temporary" /var/log/mysqld.log|cut -d " " -f 13) --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '123qweASD+';" > /dev/null 2>&1
+- name: Configure root user access and Create database user with password and all database privileges and WITH GRANT OPTION
+  script: mysql.sh
+  ignore_errors: True
+  
+
+#- name: Create database user with password and all database privileges and 'WITH GRANT OPTION'
+#  community.mysql.mysql_user:
+#    name: wordpressuser
+#    password: password
+#    priv: '*.*:ALL,GRANT'
+#    state: present
