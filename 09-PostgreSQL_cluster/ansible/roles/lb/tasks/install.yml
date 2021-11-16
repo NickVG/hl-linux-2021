@@ -1,0 +1,72 @@
+---
+- name: check OS version
+  fail: msg='OS is NOT CentOS 7.x'
+  when: ansible_distribution != 'CentOS' or ansible_distribution_major_version != '7'
+
+- name:
+  shell: "{{ item }}"
+  loop:
+    - " sysctl net.ipv4.ip_nonlocal_bind=1"
+
+- name: install packages for CentOS
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - epel-release
+    - nginx
+    - keepalived
+
+- name: Copy nginx.conf with owner and permissions
+  ansible.builtin.copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy nginx.conf with owner and permissions
+  ansible.builtin.copy:
+    src: load_balance1.conf
+    dest: /etc/nginx/conf.d/load_balance.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy kepalived.conf with owner and permissions
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: '0644'
+#  notify:
+#    - reload nginx
+#  tags:
+#    - nginx-configuration
+
+- name: Copy public cert with owner and permissions
+  ansible.builtin.copy:
+    src: certificate.pem
+    dest: /etc/nginx/certificate.pem
+    owner: nginx
+    group: nginx
+    mode: '0644'
+
+- name: Copy private key with owner and permissions
+  ansible.builtin.copy:
+    src: key.pem
+    dest: /etc/nginx/key.pem
+    owner: nginx
+    group: nginx
+    mode: '0644'
+
+- name: enable nginx and keepalived service
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - nginx
+    - keepalived

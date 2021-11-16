@@ -1,0 +1,14 @@
+[db_server]
+db-0 ansible_host=178.154.203.242 # DB Server 0
+db-1 ansible_host=62.84.114.232 # DB Server 1
+db-2 ansible_host=84.252.131.183 # DB Server 2
+
+
+[web_servers]
+web-0 ansible_host=130.193.50.193 # Web server node 0
+web-1 ansible_host=178.154.205.64 # Web server node 1
+web-2 ansible_host=178.154.206.243 # Web server node 2
+
+[balance_servers]
+lb-0 ansible_host=130.193.49.228 priority=101 state=MASTER# Load Balance server node 0
+lb-1 ansible_host=178.154.205.26 priority=100 state=BACKUP# Load Balance server node 1

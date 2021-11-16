@@ -1,0 +1,14 @@
+[db_server]
+db-0 ansible_host=${db-0-ip} # DB Server 0
+db-1 ansible_host=${db-1-ip} # DB Server 1
+db-2 ansible_host=${db-2-ip} # DB Server 2
+
+
+[web_servers]
+web-0 ansible_host=${web-0-ip} # Web server node 0
+web-1 ansible_host=${web-1-ip} # Web server node 1
+web-2 ansible_host=${web-2-ip} # Web server node 2
+
+[balance_servers]
+lb-0 ansible_host=${lb-0-ip} priority=101 state=MASTER# Load Balance server node 0
+lb-1 ansible_host=${lb-1-ip} priority=100 state=BACKUP# Load Balance server node 1

@@ -1,0 +1,14 @@
+---
+# tasks file for web
+
+- name: Install WebServer
+  include_tasks: install.yml
+
+- name: Install Wordpress
+  include_tasks: wordpress.yml
+
+- name: Configuration MySQL
+  include_tasks: webconfig.yml
+
+- name: Configuration SeLinux
+  include_tasks: selinux.yml
