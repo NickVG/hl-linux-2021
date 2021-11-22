@@ -11,7 +11,6 @@ ansible-galaxy collection install ansible.posix
 
 ## Схема стенда
 
-Схема стенда:
 ![Image of Postgres Scheme:](Scheme_Postgres.jpg)
 
 В папке terraform написан код для развёртывания ВМ в облаке yandex.
@@ -72,10 +71,9 @@ wordpress.yml - овечает за настройку wordpress и форка �
 ```
 install.yml - устанавливает и настраивает nginx и keepalived
 ```
-Схема стенда:
-![Image of Postgres Scheme:](Scheme_Postgres.jpg)
 
-Скиншоты:
+результат развёртывания стенда
+
 ![Image of PostgreSQL;](PostgreSQL.png)
 
 
