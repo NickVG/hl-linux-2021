@@ -39,7 +39,7 @@ variables.tf - объявление переменных
 
 ```
 git clone https://github.com/NickVG/hl-linux-2021.git
-cd 05-Nginx/terraform
+cd 09-PostgreSQL_cluster/terraform
 terraform apply
 cd ../ansible
 echo "Need to wait VMs startup"

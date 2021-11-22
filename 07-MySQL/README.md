@@ -37,7 +37,7 @@ variables.tf - объявление переменных
 ## Запуск стенда
 ```
 git clone https://github.com/NickVG/hl-linux-2021.git
-cd 05-Nginx/terraform
+cd 07-MySQL/terraform
 terraform apply
 cd ../ansible
 echo "Need to wait VMs startup"
