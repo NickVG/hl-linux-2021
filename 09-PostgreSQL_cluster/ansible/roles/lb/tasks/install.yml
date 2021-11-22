@@ -3,10 +3,15 @@
   fail: msg='OS is NOT CentOS 7.x'
   when: ansible_distribution != 'CentOS' or ansible_distribution_major_version != '7'
 
-- name:
+- name: LoadBalance | SET net.epv4.ip_nonlocal_bind=1
   shell: "{{ item }}"
   loop:
-    - " sysctl net.ipv4.ip_nonlocal_bind=1"
+    - " sysctl net.epv4.ip_nonlocal_bind=1"
+
+- firewalld: LoadBalance | Configure vrrp firewall rule
+    rich_rule: 'rule protocol value="vrrp" accept'
+    permanent: true
+    state: enabled
 
 - name: install packages for CentOS
   yum:

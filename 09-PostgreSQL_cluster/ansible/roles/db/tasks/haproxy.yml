@@ -1,0 +1,22 @@
+- name: HAPROXY |put config file haproxy
+  template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg backup=yes
+  tags:
+    - haproxy
+
+- name: HAPROXY | restart and enable haproxy service
+  service: 
+    name: haproxy
+    state: restarted 
+    enabled: yes
+  tags:
+    - haproxy
+- name: HAPROXY | Firewalld Configuration
+  ansible.posix.firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  tags:
+    - firewalld reload
+  loop:
+    - 5000/tcp

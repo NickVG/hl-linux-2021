@@ -4,7 +4,10 @@
   when: ansible_distribution != 'CentOS' or ansible_distribution_major_version != '7'
 
 - name: Download and Install PostgreSQL repo
-  yum: name=https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+  yum: 
+    name: "https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+    state: present
+    validate_certs: no
 
 - name: Install packages only on DB Servers
   yum:
@@ -12,17 +15,64 @@
     state: present
     update_cache: yes
   loop:
+    - epel-release
     - vim
     - bind-utils
-    - setuptools
     - postgresql12-server
-    - python3-pip 
-    - libpq-dev
+    - python2-pip
+    - python3
+    - postgresql-libs
     - centos-release-scl
     - keepalived
+    - etcd
+    - libselinux-python-2.5-15.el7.x86_64
+    - haproxy
+    - patroni
+
 - name: setenforce 0
   command: setenforce 0
 - name: Put SELinux in permissive mode, logging actions that would be blocked.
   selinux:
     policy: targeted
     state: permissive
+
+
+- name: link postgresql bin to /usr/bin
+  script: mklink.sh
+  ignore_errors: True
+#- name: Install bottle python package
+#  pip:
+#    name: "{{ items }}"
+#  loop:
+#    - setuptools
+#    - psycopg2
+#    - psycopg2-binary
+#    - patroni
+#    - python-etcd
+- name: Install and upgrade pip
+  pip:
+    name: pip
+    extra_args: --upgrade
+    executable: pip3
+- name: Install setuptools python package
+  pip:
+    name: setuptools
+    state: latest
+    executable: pip3
+
+- name: Install psycopg2 python package
+  pip:
+    name: psycopg2
+    executable: pip3
+- name: Install psycopg2-binary python package
+  pip:
+    name: psycopg2-binary
+    executable: pip3
+- name: Install patroni python package
+  pip:
+    name: patroni
+    executable: pip3
+- name: Install python-etcd python package
+  pip:
+    name: python-etcd
+    executable: pip3

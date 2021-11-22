@@ -31,6 +31,9 @@ variables.tf - объявление переменных
 В роли `lb` устанавливается и настраивается keeepalived и nginx load balancer. Балансировка настраивается по внутреннему IP т.к. у yandex нет привязки внутреннего и внешнего IP, а на GCP у меня давно уже кончился триал период. А Vagrant  слишком долго траблшутить на моём железе и интернет-канале.
 В роли `web` настраивается wordpress + selinux
 
+## Схема стенда
+![Image of MySQL Scheme.jpg](Scheme_MySQL.jpg)
+
 ## Запуск стенда
 ```
 git clone https://github.com/NickVG/hl-linux-2021.git

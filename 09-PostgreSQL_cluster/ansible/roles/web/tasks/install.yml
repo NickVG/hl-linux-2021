@@ -48,9 +48,9 @@
     - php-xml
     - php-xmlrpc
     - php-zip
+    - php-pgsql
     - setroubleshoot-server-3.2.30-8.el7.x86_64
-    - mysql
-    - mysql-router
+    - git
 #  notify:
 #    - restart php
   tags:

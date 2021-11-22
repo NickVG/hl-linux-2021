@@ -1,8 +1,8 @@
 ---
 # tasks file for lb
 
-- name: Configure hosts file
-  include_tasks: configure-hosts.yml
+#- name: Configure hosts file
+#  include_tasks: configure-hosts.yml
 
 - name: Install required packages
   include_tasks: install.yml

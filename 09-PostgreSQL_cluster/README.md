@@ -1,13 +1,18 @@
-# ДЗ по теме MySQL - кластер
+# ДЗ по теме Patroni
 
 ## Описание стенда
 Prerequisites:
 устновленные git, terraform, ansible, yc
+ansible-galaxy collection install ansible.posix
 
 Стенд состоит из двух частей:
 Первая часть это запуск инфрасруктуры с помощью yandex cloud. Находится в папке terraform.
-Вторая часть это установка и запуск сервера nginx на подготовленном сервере с помощью ansible. Находится в папке ansible.
+Вторая часть это установка и запуск web-сервиса на подготовленном сервере с помощью ansible. Находится в папке ansible.
 
+## Схема стенда
+
+Схема стенда:
+![Image of Postgres Scheme:](Scheme_Postgres.jpg)
 
 В папке terraform написан код для развёртывания ВМ в облаке yandex.
 Terraform состоит из следующих файлов:
@@ -32,6 +37,7 @@ variables.tf - объявление переменных
 В роли `web` настраивается wordpress + selinux
 
 ## Запуск стенда
+
 ```
 git clone https://github.com/NickVG/hl-linux-2021.git
 cd 05-Nginx/terraform
@@ -44,61 +50,41 @@ ansible-playbook setup_balance.yml
 
 ## Настройка кластера
 
-После запуска стенда:
-
-На каждой ноде:
-
-подключяемся к серверу через `mysqlsh`
+Роль db полностью подгтавливает poostgresql\patroni\haprooxy\keepalived для работы на трёх серверах:
 
 ```
-MySQL  JS > dba.configureLocalInstance("root@localhost:3306");
-Please provide the password for 'root@localhost:3306': ************
-Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No):Y
+install.yml - отвечает за установку софта
+dbConfig.yml - создаёт софт линк для бинарников постгреса
+etcd.yml - настроивает ETCD
+patroni.yml - Настраивает patroni поверх ETCD
+haproxy.yml - настраивает haproxy
+keepalived.yml - настраивает keepalived
 ```
 
-Выбираем пункт 2
-
-![Image of dba.configureLocalInstance("root@localhost:3306");](dba.configureLocalInstance.png)
-
-Далее подключаемся к узлу БД по hostname
+Роль web настраивает веб серверы
 ```
-shell.connect('clusteradmin@db-2:3306');
-cluster=dba.createCluster('my_innodb_cluster', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
-cluster=dba.getCluster()
--- разобрать кластер
-cluster.dissolve({force:true})
-cluster.addInstance('clusteradmin@innodb:3306', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
-cluster.addInstance('clusteradmin@innodb:3306', {ipAllowlist: '192.168.10.10,192.168.10.11,192.168.10.12,db-0,db-1,db-2'});
-cluster.status
+install.yml - отвечает за установку софта
+selinux.yml - отвечает за настройку selinux
+webconfig.yml - отвечает за настройку nginx
+wordpress.yml - овечает за настройку wordpress и форка для работы с PostgreSQL
 ```
-
-![Image of Single-Primary Cluster;](SinglePrimary.png)
-
-
-Далее переключаем в режим мультимастера
-
-``` 
-MySQL  db-2:3306 ssl  JS > cluster.switchToMultiPrimaryMode()
-Switching cluster 'my_innodb_cluster' to Multi-Primary mode...
-
-Instance 'db-2:3306' remains PRIMARY.
-Instance 'db-1:3306' was switched from SECONDARY to PRIMARY.
-Instance 'db-0:3306' was switched from SECONDARY to PRIMARY.
-
-The cluster successfully switched to Multi-Primary mode.
+Роль lb настраивает балансировщики
 ```
+install.yml - устанавливает и настраивает nginx и keepalived
+```
+Схема стенда:
+![Image of Postgres Scheme:](Scheme_Postgres.jpg)
 
-## Настройка mysql router на web серверах
+Скиншоты:
+![Image of PostgreSQL;](PostgreSQL.png)
 
-Теперь осталось включить mysql-router
 
-my-sql-router уже раскатан с помощью ansible, осталось сделать следующее:
+Ссылки на всякий случай:
 
 ```
-cd /usr/bin
-./mysqlrouter --bootstrap  clusteradmin@db-2:3306 -d /home/centos/myrouter
-~/myrouter/start.sh
+https://digitalis.io/blog/technology/part1-postgresql-ha-patroni-etcd-haproxy/
+https://digitalis.io/blog/postgresql/deploying-postgresql-for-high-availability-with-patroni-etcd-and-haproxy-part-2/
+https://www.techsupportpk.com/2020/02/how-to-set-up-highly-available-postgresql-cluster-ubuntu-19-20.html
+https://habr.com/ru/post/322036/
+https://medium.com/@shoaibhassan_/install-wordpress-with-postgresql-using-apache-in-5-min-a26078d496fb
 ```
-
-проверяем через mysql-shell
-![Image of MySQL router;](mysql-router.png)

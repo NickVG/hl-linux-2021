@@ -1,0 +1,39 @@
+---
+- name: check OS version
+  fail: msg='OS is NOT CentOS 7.x'
+  when: ansible_distribution != 'CentOS' or ansible_distribution_major_version != '7'
+
+- name: KEEPALIVEED | set net.ipv4.ip_nonlocal_bind=1
+  shell: "{{ item }}"
+  loop:
+    - " sysctl net.ipv4.ip_nonlocal_bind=1"
+
+- firewalld: KEEPALIVEED | Configure vrrp firewall rule
+    rich_rule: 'rule protocol value="vrrp" accept'
+    permanent: true
+    state: enabled
+
+- name: KEEPALIVEED | install packages for CentOS
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - epel-release
+    - keepalived
+
+- name: KEEPALIVEED | Copy kepalived.conf with owner and permissions
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: KEEPALIVEED | enable nginx and keepalived service
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - keepalived

@@ -1,17 +1,24 @@
 ---
-- name: Download wordpress
+- name: WORDPRESS | Download wordpress
   get_url:
     url: https://wordpress.org/latest.tar.gz
     dest: /usr/share/nginx/html/latest.tar.gz
-- name: Unzip wordpress
+
+- name: WORDPRESS | Unzip wordpress
   unarchive:
     src: /usr/share/nginx/html/latest.tar.gz
     dest: /usr/share/nginx/html/
     remote_src: yes
-- name: Copy nginx and config  with owner and permissions
+
+- name: WORDPRESS | Configuration of a wordpress fork for PostgreSQL
+  script: wordpressconfig.sh
+  ignore_errors: True
+  
+- name: WORDPRESS | Copy nginx and config  with owner and permissions
   ansible.builtin.copy:
     src: wp-config.php
     dest: /usr/share/nginx/html/wordpress/wp-config.php
     owner: nginx
     group: nginx
     mode: '0644'
+

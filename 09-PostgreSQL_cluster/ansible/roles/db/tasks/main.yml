@@ -1,7 +1,18 @@
 ---
-# tasks file for db
+ tasks file for db
 - name: Install required packages
   include_tasks: install.yml
 
+- name: Configure ETCD
+  include_tasks: etcd.yml
+
 - name: Configure DB
   include_tasks: dbConfig.yml
+
+- name: Configure patroni
+  include_tasks: patroni.yml
+- name: Configure haprooxy
+  include_tasks: haproxy.yml
+
+- name: Configure keepalived
+  include_tasks: keepalived.yml

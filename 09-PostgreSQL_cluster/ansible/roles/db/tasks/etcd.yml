@@ -1,0 +1,29 @@
+- name: ETCD | Config ETCD config file from template
+  template:
+    src: templates/etcd.conf.j2
+    dest: /etc/etcd/etcd.conf
+#  notify:
+#    - reload etcd
+  tags:
+    - etcd-configuration
+
+- name: ETCD | Firewalld Configuration
+  ansible.posix.firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  tags:
+    - firewalld reload
+  loop:
+    - 2379/tcp
+    - 2380/tcp
+    - 4001/tcp
+
+- name: ETCD | configure ETCD service
+  service:
+    name: etcd
+    state: started
+    enabled: yes
+
+

@@ -1,15 +1,22 @@
 ---
-- name: enable mysql-server
-  systemd:
-    name: mysqld
-    enabled: yes
-    state: started
+#- name: Create a symbolic link
+#  ansible.builtin.file:
+#    src: /var/lib/postgresql/12/bin/*
+#    dest: /usr/sbin
+#    owner: foo
+#    group: foo
+#    state: link
 #- name: Configure root user acccess
 #  shell:  mysql -u root --password=$(grep "temporary" /var/log/mysqld.log|cut -d " " -f 13) --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '123qweASD+';" > /dev/null 2>&1
-- name: Configure root user access and Create database user with password and all database privileges and WITH GRANT OPTION
-  script: mysql.sh
+- name: dbConfigure | Configure Symbolic link
+  script: mklink.sh
   ignore_errors: True
   
+#- name: enable mysql-server
+#  systemd:
+#    name: mysqld
+#    enabled: yes
+#    state: started
 
 #- name: Create database user with password and all database privileges and 'WITH GRANT OPTION'
 #  community.mysql.mysql_user:

@@ -1,0 +1,43 @@
+---
+- name: PATRONI | Firewalld Configuration
+  ansible.posix.firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  tags:
+    - firewalld reload
+  loop:
+    - 5432/tcp
+    - 8008/tcp
+    - 5000/tcp
+
+#  notify:
+#    - reload etcd
+  tags:
+    - patroni-configuration
+
+- name: Create directory for patroni
+  ansible.builtin.file:
+    path: /data/patroni
+    state: directory
+    mode: 0700
+    owner: postgres
+    group: postgres
+
+- name: PATRONI | Config PATRONI config file from template
+  template:
+    src: templates/patroni.yml.j2
+    dest: /etc/patroni/patroni.yml
+
+#- name: Create directory for patroni
+#  ansible.builtin.file:
+#    src: /var/lib/postgresql/12/bin/*
+#    dest: /usr/sbin
+#    state: link
+
+- name: PATRONI | configure PATRONI service
+  service:
+    name: patroni
+    state: started
+    enabled: yes

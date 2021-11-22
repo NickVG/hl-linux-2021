@@ -14,11 +14,11 @@
         mode: 0644
         backup: yes
 
-- name: Install db server
-  hosts: db_server 
-  become: true
-  roles:
-    - db
+#- name: Install db server
+#  hosts: db_server 
+#  become: true
+#  roles:
+#    - db
 
 - name: Install load balance servers
   hosts: balance_servers
